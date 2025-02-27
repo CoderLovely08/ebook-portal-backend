@@ -79,13 +79,13 @@ export class AuthController {
    */
   static async handlePostSystemUserRegistration(req, res) {
     try {
-      const { email, password, fullName, userTypeId } = req.body;
+      const { email, password, fullName, userType } = req.body;
 
       const user = await AuthService.createSystemUser(
         email,
         password,
         fullName,
-        userTypeId
+        userType
       );
 
       return APIResponse.success(res, user, "User registered successfully");

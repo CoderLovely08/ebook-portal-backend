@@ -101,3 +101,26 @@ export const MULTER_CONFIG_TYPES = {
   MEMORY: "memory",
   DISK: "disk",
 };
+
+export const PRISMA_ERROR_CODES = {
+  P2002: {
+    code: "P2002",
+    message: "Unique constraint failed on the fields",
+    status: 400,
+  },
+  P2025: {
+    code: "P2025",
+    message: "Record not found",
+    status: 404,
+  },
+  P2003: {
+    code: "P2003",
+    message: "Foreign key constraint failed on the field",
+    status: 400,
+  },
+  P2007: {
+    code: "P2007",
+    message: "Invalid input value",
+    status: 400,
+  },
+};

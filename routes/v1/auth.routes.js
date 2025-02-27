@@ -7,21 +7,21 @@ const router = Router();
 
 /**
  * Handle post system user login
- * Route: /api/v1/auth/login
+ * Route: /api/v1/auth/system/login
  * body: {
  *  email: string,
  *  password: string
  * }
  */
 router.post(
-  "/login",
+  "/system/login",
   higherOrderUserDataValidation(ValidationSchema.loginSchema),
   AuthController.handlePostSystemUserLogin
 );
 
 /**
  * Handle post system user registration
- * Route: /api/v1/auth/register
+ * Route: /api/v1/auth/system/register
  * body: {
  *  email: string,
  *  password: string,
@@ -29,7 +29,7 @@ router.post(
  * }
  */
 router.post(
-  "/register",
+  "/system/register",
   higherOrderUserDataValidation(ValidationSchema.simpleUserOnboardingSchema),
   AuthController.handlePostSystemUserRegistration
 );

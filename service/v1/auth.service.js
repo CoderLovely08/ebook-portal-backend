@@ -1,4 +1,5 @@
 import { prisma } from "../../app.js";
+import { PRISMA_ERROR_CODES } from "../../utils/constants/app.constant.js";
 import {
   comparePassword,
   hashPassword,
@@ -82,11 +83,16 @@ export class AuthService {
 
       return user;
     } catch (error) {
-      if (error.code === "P2002") {
-        if (error.meta.target.includes("user_email")) {
+      if (error.code === PRISMA_ERROR_CODES.P2002.code) {
+        if (error.meta.target.includes("system_user_email")) {
           throw new CustomError("Email already exists", 400);
         }
       }
+
+      if (error.code === PRISMA_ERROR_CODES.P2025.code) {
+        throw new CustomError("User type does not exist", 400);
+      }
+
       throw new CustomError(`Error creating system user: ${error.message}`);
     }
   }
