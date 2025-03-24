@@ -1,3 +1,4 @@
+import { APIResponse } from "../service/core/CustomResponse.js";
 import { decodeJwtToken } from "../utils/helpers/app.helpers.js";
 
 // --------------------------------------------
@@ -20,30 +21,21 @@ export const validateToken = async (req, res, next) => {
 
     // Check if token is provided
     if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: "Access denied. No token provided",
-      });
+      return APIResponse.error(res, "Access denied. No token provided", 401);
     }
 
     // Verify token
     const decoded = decodeJwtToken(token);
 
-    if (!decoded.success) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid token",
-      });
+    if (!decoded) {
+      return APIResponse.error(res, "Invalid token", 401);
     }
 
-    req.user = decoded.data;
+    req.user = decoded;
 
     next();
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return APIResponse.error(res, error.message, 500);
   }
 };
 
@@ -62,18 +54,16 @@ export const checkRole = (requiredRoles = []) => {
       const userRole = req.user?.userType || "";
 
       if (!requiredRoles.includes(userRole)) {
-        return res.status(403).json({
-          success: false,
-          message: "You do not have permission to access this route",
-        });
+        return APIResponse.error(
+          res,
+          "You do not have permission to access this route",
+          403
+        );
       }
 
       next();
     } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: "Internal server error",
-      });
+      return APIResponse.error(res, error.message, 500);
     }
   };
 };
@@ -95,18 +85,16 @@ export const checkPermissions = (permissionName) => {
       const hasPermission = userPermissions.includes(permissionName);
 
       if (!hasPermission) {
-        return res.status(403).json({
-          success: false,
-          message: "You do not have permission to access this route",
-        });
+        return APIResponse.error(
+          res,
+          "You do not have permission to access this route",
+          403
+        );
       }
 
       next();
     } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: "Internal server error",
-      });
+      return APIResponse.error(res, error.message, 500);
     }
   };
 };
