@@ -26,6 +26,10 @@ model SystemUsersInfo {
   createdAt           DateTime  @default(now()) @map("system_user_created_at")
   updatedAt           DateTime  @updatedAt @map("system_user_updated_at")
 
+  PurchaseOrders PurchaseOrder[]
+  UserLibraries  UserLibrary[]
+  Reviews        Review[]
+
   @@map("SystemUsersInfo")
 }
 
@@ -38,4 +42,109 @@ model UserType {
   systemUsers SystemUsersInfo[]
 
   @@map("UserTypeInfo")
+}
+
+// Book model for eBook information
+model Book {
+  id            String   @id @default(uuid())
+  title         String
+  author        String
+  description   String   @db.Text
+  coverImage    String?
+  filePath      String // Path to the PDF file
+  price         Float // 0 for free books
+  isFree        Boolean  @default(false)
+  publishedDate DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  categories     CategoriesOnBooks[]
+  purchaseOrders PurchaseOrder[]
+  reviews        Review[]
+  library        UserLibrary[]
+
+  @@map("books")
+}
+
+// Category model for organizing books
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  books CategoriesOnBooks[]
+
+  @@map("categories")
+}
+
+// Junction table for many-to-many relationship between Books and Categories
+model CategoriesOnBooks {
+  bookId     String
+  categoryId String
+  assignedAt DateTime @default(now())
+
+  // Relations
+  book     Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([bookId, categoryId])
+  @@map("categories_on_books")
+}
+
+// PurchaseOrder model for tracking book purchases
+model PurchaseOrder {
+  id           String      @id @default(uuid())
+  userId       Int
+  bookId       String
+  purchaseDate DateTime    @default(now())
+  status       OrderStatus @default(PENDING)
+
+  // Relations
+  user SystemUsersInfo @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book            @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@map("purchase_orders")
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+// UserLibrary model to track which books users have access to
+model UserLibrary {
+  id        String   @id @default(uuid())
+  userId    Int
+  bookId    String
+  addedDate DateTime @default(now())
+
+  // Relations
+  user SystemUsersInfo @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book            @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId])
+  @@map("user_library")
+}
+
+// Review model for user ratings and reviews
+model Review {
+  id        String   @id @default(uuid())
+  userId    Int
+  bookId    String
+  rating    Int      @db.SmallInt // 1-5 stars
+  comment   String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user SystemUsersInfo @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book            @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId])
+  @@map("reviews")
 }

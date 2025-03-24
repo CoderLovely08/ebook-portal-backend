@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   const userType = await prisma.userType.createMany({
-    data: [{ name: "SuperAdmin" }, { name: "Admin" }, { name: "User" }],
+    data: [{ name: "SuperAdmin" }, { name: "User" }],
   });
 }
 

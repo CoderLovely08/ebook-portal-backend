@@ -32,7 +32,6 @@ const app = express();
 
 const limiter = rateLimit(config.rateLimit);
 
-
 // Environment-specific request logging
 app.use(createRequestLogger(config.ENV, logger));
 
