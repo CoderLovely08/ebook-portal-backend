@@ -12,7 +12,12 @@ export const USER_TYPES = Object.freeze({
   USER: "User",
 });
 
-// Token Types
+export const USER_ROLES = Object.freeze({
+  ADMIN: "Admin",
+  USER: "User",
+});
+
+// Token types
 export const TOKEN_TYPES = {
   ACCESS: "accessToken",
   REFRESH: "refreshToken",
@@ -123,4 +128,11 @@ export const PRISMA_ERROR_CODES = {
     message: "Invalid input value",
     status: 400,
   },
+};
+
+// Purchase order status types
+export const ORDER_STATUS = {
+  PENDING: "PENDING",
+  COMPLETED: "COMPLETED",
+  CANCELLED: "CANCELLED",
 };

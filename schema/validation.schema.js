@@ -43,6 +43,78 @@ export class ValidationSchema {
     { field: "email", type: VALIDATION_TYPES.EMAIL, required: true },
   ];
 
+  // Create Book Schema
+  static createBookSchema = [
+    { field: "title", type: VALIDATION_TYPES.STRING, required: true },
+    { field: "author", type: VALIDATION_TYPES.STRING, required: true },
+    { field: "description", type: VALIDATION_TYPES.STRING, required: true },
+    { field: "price", type: VALIDATION_TYPES.NUMBER, required: true },
+    { field: "isFree", type: VALIDATION_TYPES.BOOLEAN, required: false },
+    { field: "publishedDate", type: VALIDATION_TYPES.DATETIME, required: true },
+    {
+      field: "categories",
+      type: VALIDATION_TYPES.ARRAY,
+      required: true,
+      arrayType: VALIDATION_TYPES.STRING,
+    },
+  ];
+
+  // Update Book Schema
+  static updateBookSchema = [
+    { field: "title", type: VALIDATION_TYPES.STRING, required: false },
+    { field: "author", type: VALIDATION_TYPES.STRING, required: false },
+    { field: "description", type: VALIDATION_TYPES.STRING, required: false },
+    { field: "price", type: VALIDATION_TYPES.NUMBER, required: false },
+    { field: "isFree", type: VALIDATION_TYPES.BOOLEAN, required: false },
+    { field: "publishedDate", type: VALIDATION_TYPES.DATETIME, required: false },
+    {
+      field: "categories",
+      type: VALIDATION_TYPES.ARRAY,
+      required: false,
+      arrayType: VALIDATION_TYPES.STRING,
+    },
+  ];
+
+  // Create Category Schema
+  static createCategorySchema = [
+    { field: "name", type: VALIDATION_TYPES.STRING, required: true },
+    { field: "description", type: VALIDATION_TYPES.STRING, required: false },
+  ];
+
+  // Update Category Schema
+  static updateCategorySchema = [
+    { field: "name", type: VALIDATION_TYPES.STRING, required: false },
+    { field: "description", type: VALIDATION_TYPES.STRING, required: false },
+  ];
+
+  // Create Purchase Schema
+  static createPurchaseSchema = [
+    { field: "bookId", type: VALIDATION_TYPES.STRING, required: true },
+  ];
+
+  // Update Purchase Status Schema
+  static updatePurchaseStatusSchema = [
+    { field: "status", type: VALIDATION_TYPES.STRING, required: true },
+  ];
+
+  // Add to Library Schema
+  static addToLibrarySchema = [
+    { field: "bookId", type: VALIDATION_TYPES.STRING, required: true },
+  ];
+
+  // Create Review Schema
+  static createReviewSchema = [
+    { field: "bookId", type: VALIDATION_TYPES.STRING, required: true },
+    { field: "rating", type: VALIDATION_TYPES.INTEGER, required: true },
+    { field: "comment", type: VALIDATION_TYPES.STRING, required: false },
+  ];
+
+  // Update Review Schema
+  static updateReviewSchema = [
+    { field: "rating", type: VALIDATION_TYPES.INTEGER, required: false },
+    { field: "comment", type: VALIDATION_TYPES.STRING, required: false },
+  ];
+
   // Complex User Onboarding Schema
   static complexUserOnboardingSchema = [
     { field: "fullName", type: VALIDATION_TYPES.PURE_NAME, required: true },
