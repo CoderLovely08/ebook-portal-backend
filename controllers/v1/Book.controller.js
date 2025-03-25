@@ -168,4 +168,28 @@ export class BookController {
       return APIResponse.error(res, error.message, error.statusCode);
     }
   }
+
+  /**
+   * Handle update book file path
+   * @description Update a book file path
+   * @param {Object} req - The request object
+   * @param {Object} res - The response object
+   * @returns {Object} The response object
+   */
+  static async handleUpdateBookFilePath(req, res) {
+    try {
+      const { id } = req.params;
+      const { filePath } = req.files;
+
+      const book = await BookService.updateBookFilePath(id, filePath.fileUrl);
+
+      return APIResponse.success(
+        res,
+        book,
+        "Book file path updated successfully"
+      );
+    } catch (error) {
+      return APIResponse.error(res, error.message, error.statusCode);
+    }
+  }
 }

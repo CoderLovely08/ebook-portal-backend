@@ -373,4 +373,36 @@ export class BookService {
       );
     }
   }
+
+  /**
+   * Update a book file path
+   * @param {string} id - The book id
+   * @param {Object} filePath - The file path
+   * @returns {Promise<Object>} The updated book
+   */
+  static async updateBookFilePath(id, filePath) {
+    try {
+      const book = await prisma.book.findUnique({
+        where: { id },
+      });
+
+      if (!book) {
+        throw new CustomError("Book not found", 404);
+      }
+
+      // Delete the existing file path
+      if (book.filePath) {
+        await SupabaseService.supabaseDeleteFile(book.filePath);
+      }
+
+      const updatedBook = await prisma.book.update({
+        where: { id },
+        data: { filePath },
+      });
+
+      return updatedBook;
+    } catch (error) {
+      throw new CustomError(`Error updating book file path: ${error.message}`);
+    }
+  }
 }

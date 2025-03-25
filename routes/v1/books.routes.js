@@ -56,6 +56,11 @@ router.put(
   BookController.handleUpdateBook
 );
 
+/**
+ * Update a book cover image (Admin only)
+ * Route: /api/v1/books/:id/cover-image
+ * Params: id
+ */
 router.put(
   "/:id/cover-image",
   validateToken,
@@ -63,6 +68,20 @@ router.put(
   upload.single("coverImage"),
   CommonController.handleUploadFile("coverImage"),
   BookController.handleUpdateBookCoverImage
+);
+
+/**
+ * Update a book file path (Admin only)
+ * Route: /api/v1/books/:id/file-path
+ * Params: id
+ */
+router.put(
+  "/:id/file-path",
+  validateToken,
+  checkRole([USER_ROLES.ADMIN]),
+  upload.single("filePath"),
+  CommonController.handleUploadFile("filePath"),
+  BookController.handleUpdateBookFilePath
 );
 
 /**
