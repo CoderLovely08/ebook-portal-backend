@@ -10,15 +10,19 @@ export class CommonController {
   static handleUploadFile(fieldName) {
     return async (req, res, next) => {
       try {
-        console.log(fieldName);
+        if (!req.files) req.files = {};
 
-        const fileItem = req.files[fieldName];
+        let fileItem = req.files[fieldName] || req.file;
 
         if (!fileItem) {
           throw new CustomError(`${fieldName} file is required`, 400);
         }
 
-        const file = fileItem[0];
+        if (Array.isArray(fileItem)) {
+          fileItem = fileItem[0];
+        }
+
+        const file = fileItem;
 
         const originalFileName = file.originalname;
         const fileBuffer = file.buffer;
@@ -36,6 +40,7 @@ export class CommonController {
 
         next();
       } catch (error) {
+        console.log(error);
         return APIResponse.error(res, error.message, error.statusCode);
       }
     };

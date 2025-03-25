@@ -56,6 +56,15 @@ router.put(
   BookController.handleUpdateBook
 );
 
+router.put(
+  "/:id/cover-image",
+  validateToken,
+  checkRole([USER_ROLES.ADMIN]),
+  upload.single("coverImage"),
+  CommonController.handleUploadFile("coverImage"),
+  BookController.handleUpdateBookCoverImage
+);
+
 /**
  * Delete a book (Admin only)
  * Route: /api/v1/books/:id

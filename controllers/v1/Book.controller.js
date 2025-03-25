@@ -64,7 +64,7 @@ export class BookController {
         isFree,
         publishedDate,
         categories,
-      } = req.body;      
+      } = req.body;
 
       const coverImage = req.files.coverImage;
       const filePath = req.files.filePath;
@@ -101,8 +101,6 @@ export class BookController {
         title,
         author,
         description,
-        coverImage,
-        filePath,
         price,
         isFree,
         publishedDate,
@@ -113,8 +111,6 @@ export class BookController {
         title,
         author,
         description,
-        coverImage,
-        filePath,
         price: price ? parseFloat(price) : undefined,
         isFree: isFree !== undefined ? Boolean(isFree) : undefined,
         publishedDate: publishedDate ? new Date(publishedDate) : undefined,
@@ -141,6 +137,33 @@ export class BookController {
       await BookService.deleteBook(id);
 
       return APIResponse.success(res, null, "Book deleted successfully");
+    } catch (error) {
+      return APIResponse.error(res, error.message, error.statusCode);
+    }
+  }
+
+  /**
+   * Handle update book cover image
+   * @description Update a book cover image
+   * @param {Object} req - The request object
+   * @param {Object} res - The response object
+   * @returns {Object} The response object
+   */
+  static async handleUpdateBookCoverImage(req, res) {
+    try {
+      const { id } = req.params;
+      const { coverImage } = req.files;
+
+      const book = await BookService.updateBookCoverImage(
+        id,
+        coverImage.fileUrl
+      );
+
+      return APIResponse.success(
+        res,
+        book,
+        "Book cover image updated successfully"
+      );
     } catch (error) {
       return APIResponse.error(res, error.message, error.statusCode);
     }

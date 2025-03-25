@@ -1,6 +1,7 @@
 import { prisma } from "../../app.js";
 import { CustomError } from "../core/CustomResponse.js";
 import { PRISMA_ERROR_CODES } from "../../utils/constants/app.constant.js";
+import { SupabaseService } from "../common/Supabase.service.js";
 
 export class BookService {
   /**
@@ -336,6 +337,40 @@ export class BookService {
       }
 
       throw new CustomError(`Error deleting book: ${error.message}`);
+    }
+  }
+
+  /**
+   * Update a book cover image
+   * @param {string} id - The book id
+   * @param {Object} coverImage - The cover image
+   * @returns {Promise<Object>} The updated book
+   */
+  static async updateBookCoverImage(id, coverImage) {
+    try {
+      const book = await prisma.book.findUnique({
+        where: { id },
+      });
+
+      if (!book) {
+        throw new CustomError("Book not found", 404);
+      }
+
+      // Delete the existing cover image
+      if (book.coverImage) {
+        await SupabaseService.supabaseDeleteFile(book.coverImage);
+      }
+
+      const updatedBook = await prisma.book.update({
+        where: { id },
+        data: { coverImage },
+      });
+
+      return updatedBook;
+    } catch (error) {
+      throw new CustomError(
+        `Error updating book cover image: ${error.message}`
+      );
     }
   }
 }
