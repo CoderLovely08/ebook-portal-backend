@@ -18,7 +18,6 @@ router.get("/", LibraryController.handleGetUserLibrary);
  */
 router.post(
   "/",
-
   higherOrderUserDataValidation(ValidationSchema.addToLibrarySchema),
   LibraryController.handleAddBookToLibrary
 );
@@ -30,7 +29,6 @@ router.post(
  */
 router.delete(
   "/:bookId",
-
   LibraryController.handleRemoveBookFromLibrary
 );
 

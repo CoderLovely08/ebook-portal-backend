@@ -2,6 +2,8 @@ import { Router } from "express";
 import { higherOrderUserDataValidation } from "../../middlewares/validation.middleware.js";
 import { ValidationSchema } from "../../schema/validation.schema.js";
 import { ReviewController } from "../../controllers/v1/Review.controller.js";
+import { checkRole, validateToken } from "../../middlewares/auth.middleware.js";
+import { USER_ROLES } from "../../utils/constants/app.constant.js";
 
 const router = Router();
 
@@ -26,7 +28,8 @@ router.get("/:id", ReviewController.handleGetReviewById);
  */
 router.post(
   "/",
-
+  validateToken,
+  checkRole([USER_ROLES.USER]),
   higherOrderUserDataValidation(ValidationSchema.createReviewSchema),
   ReviewController.handleCreateReview
 );
@@ -39,7 +42,8 @@ router.post(
  */
 router.put(
   "/:id",
-
+  validateToken,
+  checkRole([USER_ROLES.USER]),
   higherOrderUserDataValidation(ValidationSchema.updateReviewSchema),
   ReviewController.handleUpdateReview
 );
@@ -51,7 +55,8 @@ router.put(
  */
 router.delete(
   "/:id",
-
+  validateToken,
+  checkRole([USER_ROLES.USER]),
   ReviewController.handleDeleteReview
 );
 

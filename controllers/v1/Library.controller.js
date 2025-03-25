@@ -12,10 +12,14 @@ export class LibraryController {
   static async handleGetUserLibrary(req, res) {
     try {
       const userId = req.user.userId;
-      
+
       const library = await LibraryService.getUserLibrary(userId);
 
-      return APIResponse.success(res, library, "User library retrieved successfully");
+      return APIResponse.success(
+        res,
+        library,
+        "User library retrieved successfully"
+      );
     } catch (error) {
       return APIResponse.error(res, error.message, error.statusCode);
     }
@@ -32,10 +36,14 @@ export class LibraryController {
     try {
       const { bookId } = req.body;
       const userId = req.user.userId;
-      
+
       const result = await LibraryService.addBookToLibrary(userId, bookId);
 
-      return APIResponse.success(res, result, "Book added to library successfully");
+      return APIResponse.success(
+        res,
+        result,
+        "Book added to library successfully"
+      );
     } catch (error) {
       return APIResponse.error(res, error.message, error.statusCode);
     }
@@ -52,12 +60,16 @@ export class LibraryController {
     try {
       const { bookId } = req.params;
       const userId = req.user.userId;
-      
+
       await LibraryService.removeBookFromLibrary(userId, bookId);
 
-      return APIResponse.success(res, null, "Book removed from library successfully");
+      return APIResponse.success(
+        res,
+        null,
+        "Book removed from library successfully"
+      );
     } catch (error) {
       return APIResponse.error(res, error.message, error.statusCode);
     }
   }
-} 
+}
