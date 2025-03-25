@@ -44,7 +44,10 @@ export class BookService {
         where.categories = {
           some: {
             category: {
-              name: category,
+              name: {
+                contains: category,
+                mode: "insensitive",
+              },
             },
           },
         };
@@ -184,10 +187,11 @@ export class BookService {
     try {
       const { categories, ...restBookData } = bookData;
 
-      // Check if the categories is an array if not make it an array it might be a string as "["category1", "category2"]"
-      if (!Array.isArray(categories)) {
-        categories = categories.split(",");
-      }
+      // Demo categories
+      const demoCategories = [
+        "def3cc7b-1b66-484a-84f8-60e89b8cb3b2",
+        "2ddcac44-7427-4c80-9f7a-49fdef28e5ee",
+      ];
 
       return await prisma.$transaction(async (tx) => {
         // Create the book
@@ -198,8 +202,8 @@ export class BookService {
         });
 
         // Add categories if provided
-        if (categories && categories.length > 0) {
-          for (const categoryId of categories) {
+        if (demoCategories && demoCategories.length > 0) {
+          for (const categoryId of demoCategories) {
             await tx.categoriesOnBooks.create({
               data: {
                 bookId: book.id,
