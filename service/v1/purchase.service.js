@@ -1,6 +1,9 @@
 import { prisma } from "../../app.js";
 import { CustomError } from "../core/CustomResponse.js";
-import { ORDER_STATUS, PRISMA_ERROR_CODES } from "../../utils/constants/app.constant.js";
+import {
+  ORDER_STATUS,
+  PRISMA_ERROR_CODES,
+} from "../../utils/constants/app.constant.js";
 
 export class PurchaseService {
   /**
@@ -27,7 +30,7 @@ export class PurchaseService {
           },
         },
         orderBy: {
-          purchaseDate: 'desc',
+          purchaseDate: "desc",
         },
       });
 
@@ -58,7 +61,10 @@ export class PurchaseService {
 
       // Make sure the purchase belongs to the user (admin can see all purchases)
       if (purchase.userId !== userId) {
-        throw new CustomError("You do not have permission to view this purchase", 403);
+        throw new CustomError(
+          "You do not have permission to view this purchase",
+          403
+        );
       }
 
       return purchase;
@@ -140,7 +146,7 @@ export class PurchaseService {
       if (error instanceof CustomError) {
         throw error;
       }
-      
+
       throw new CustomError(`Error creating purchase: ${error.message}`);
     }
   }
@@ -156,7 +162,10 @@ export class PurchaseService {
       // Validate status
       const validStatuses = Object.values(ORDER_STATUS);
       if (!validStatuses.includes(status)) {
-        throw new CustomError(`Invalid status. Must be one of: ${validStatuses.join(', ')}`, 400);
+        throw new CustomError(
+          `Invalid status. Must be one of: ${validStatuses.join(", ")}`,
+          400
+        );
       }
 
       // Check if purchase exists
@@ -191,7 +200,10 @@ export class PurchaseService {
         });
 
         // If the status is changed to COMPLETED, add the book to the user's library
-        if (status === ORDER_STATUS.COMPLETED && purchase.status !== ORDER_STATUS.COMPLETED) {
+        if (
+          status === ORDER_STATUS.COMPLETED &&
+          purchase.status !== ORDER_STATUS.COMPLETED
+        ) {
           // Check if the book is already in the user's library
           const existingLibraryEntry = await tx.userLibrary.findUnique({
             where: {
@@ -218,8 +230,8 @@ export class PurchaseService {
       if (error instanceof CustomError) {
         throw error;
       }
-      
+
       throw new CustomError(`Error updating purchase status: ${error.message}`);
     }
   }
-} 
+}

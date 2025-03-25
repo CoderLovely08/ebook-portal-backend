@@ -12,10 +12,14 @@ export class PurchaseController {
   static async handleGetUserPurchases(req, res) {
     try {
       const userId = req.user.userId;
-      
+
       const purchases = await PurchaseService.getUserPurchases(userId);
 
-      return APIResponse.success(res, purchases, "Purchases retrieved successfully");
+      return APIResponse.success(
+        res,
+        purchases,
+        "Purchases retrieved successfully"
+      );
     } catch (error) {
       return APIResponse.error(res, error.message, error.statusCode);
     }
@@ -32,10 +36,14 @@ export class PurchaseController {
     try {
       const { id } = req.params;
       const userId = req.user.userId;
-      
+
       const purchase = await PurchaseService.getPurchaseById(id, userId);
 
-      return APIResponse.success(res, purchase, "Purchase retrieved successfully");
+      return APIResponse.success(
+        res,
+        purchase,
+        "Purchase retrieved successfully"
+      );
     } catch (error) {
       return APIResponse.error(res, error.message, error.statusCode);
     }
@@ -52,10 +60,14 @@ export class PurchaseController {
     try {
       const { bookId } = req.body;
       const userId = req.user.userId;
-      
+
       const purchase = await PurchaseService.createPurchase(userId, bookId);
 
-      return APIResponse.success(res, purchase, "Purchase created successfully");
+      return APIResponse.success(
+        res,
+        purchase,
+        "Purchase created successfully"
+      );
     } catch (error) {
       return APIResponse.error(res, error.message, error.statusCode);
     }
@@ -72,12 +84,16 @@ export class PurchaseController {
     try {
       const { id } = req.params;
       const { status } = req.body;
-      
+
       const purchase = await PurchaseService.updatePurchaseStatus(id, status);
 
-      return APIResponse.success(res, purchase, "Purchase status updated successfully");
+      return APIResponse.success(
+        res,
+        purchase,
+        "Purchase status updated successfully"
+      );
     } catch (error) {
       return APIResponse.error(res, error.message, error.statusCode);
     }
   }
-} 
+}

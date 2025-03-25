@@ -2,6 +2,8 @@ import { Router } from "express";
 import { higherOrderUserDataValidation } from "../../middlewares/validation.middleware.js";
 import { ValidationSchema } from "../../schema/validation.schema.js";
 import { PurchaseController } from "../../controllers/v1/Purchase.controller.js";
+import { checkRole, validateToken } from "../../middlewares/auth.middleware.js";
+import { USER_ROLES } from "../../utils/constants/app.constant.js";
 
 const router = Router();
 
@@ -9,14 +11,24 @@ const router = Router();
  * Get all purchases for current user
  * Route: /api/v1/purchases
  */
-router.get("/", PurchaseController.handleGetUserPurchases);
+router.get(
+  "/",
+  validateToken,
+  checkRole([USER_ROLES.USER]),
+  PurchaseController.handleGetUserPurchases
+);
 
 /**
  * Get purchase by id
  * Route: /api/v1/purchases/:id
  * Params: id
  */
-router.get("/:id", PurchaseController.handleGetPurchaseById);
+router.get(
+  "/:id",
+  validateToken,
+  checkRole([USER_ROLES.USER]),
+  PurchaseController.handleGetPurchaseById
+);
 
 /**
  * Create a new purchase
@@ -25,7 +37,8 @@ router.get("/:id", PurchaseController.handleGetPurchaseById);
  */
 router.post(
   "/",
-
+  validateToken,
+  checkRole([USER_ROLES.USER]),
   higherOrderUserDataValidation(ValidationSchema.createPurchaseSchema),
   PurchaseController.handleCreatePurchase
 );
@@ -38,6 +51,8 @@ router.post(
  */
 router.put(
   "/:id/status",
+  validateToken,
+  checkRole([USER_ROLES.ADMIN]),
   higherOrderUserDataValidation(ValidationSchema.updatePurchaseStatusSchema),
   PurchaseController.handleUpdatePurchaseStatus
 );

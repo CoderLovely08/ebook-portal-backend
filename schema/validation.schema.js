@@ -1,5 +1,5 @@
 import { CustomError } from "../service/core/CustomResponse.js";
-import { VALIDATION_TYPES } from "../utils/constants/app.constant.js";
+import { ORDER_STATUS, VALIDATION_TYPES } from "../utils/constants/app.constant.js";
 import { validatePhoneNumber } from "../utils/helpers/app.helpers.js";
 
 export class ValidationSchema {
@@ -66,7 +66,11 @@ export class ValidationSchema {
     { field: "description", type: VALIDATION_TYPES.STRING, required: false },
     { field: "price", type: VALIDATION_TYPES.NUMBER, required: false },
     { field: "isFree", type: VALIDATION_TYPES.BOOLEAN, required: false },
-    { field: "publishedDate", type: VALIDATION_TYPES.DATETIME, required: false },
+    {
+      field: "publishedDate",
+      type: VALIDATION_TYPES.DATETIME,
+      required: false,
+    },
     {
       field: "categories",
       type: VALIDATION_TYPES.ARRAY,
@@ -94,7 +98,17 @@ export class ValidationSchema {
 
   // Update Purchase Status Schema
   static updatePurchaseStatusSchema = [
-    { field: "status", type: VALIDATION_TYPES.STRING, required: true },
+    {
+      field: "status",
+      type: VALIDATION_TYPES.CUSTOM,
+      required: true,
+      format: (value) => {
+        if (!Object.values(ORDER_STATUS).includes(value)) {
+          throw new CustomError("Invalid status", 400);
+        }
+        return true;
+      },
+    },
   ];
 
   // Add to Library Schema
