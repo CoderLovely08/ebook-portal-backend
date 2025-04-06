@@ -12,7 +12,7 @@ const router = Router();
 /**
  * Get all books with optional filters
  * Route: /api/v1/books
- * Query params: category, isFree, search, sort, limit, page
+ * Query params: category, type, search, sort, limit, page
  */
 router.get("/", BookController.handleGetAllBooks);
 

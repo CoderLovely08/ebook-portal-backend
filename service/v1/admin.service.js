@@ -17,7 +17,7 @@ export class AdminService {
       // Build the where clause
       const where = {
         userType: {
-          id: 2,
+          id: 4,
         },
       };
       

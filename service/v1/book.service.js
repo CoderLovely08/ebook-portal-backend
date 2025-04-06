@@ -17,20 +17,22 @@ export class BookService {
    */
   static async getAllBooks({
     category,
-    isFree,
+    type,
     search,
     sort,
     limit = 10,
     page = 1,
   }) {
+    console.log(category, type, search, sort, limit, page);
+
     try {
       const skip = (page - 1) * limit;
 
       // Build the where clause
       const where = {};
 
-      if (isFree !== undefined) {
-        where.isFree = isFree;
+      if (type !== undefined) {
+        where.isFree = type
       }
 
       if (search) {
@@ -190,8 +192,8 @@ export class BookService {
 
       // Demo categories
       const demoCategories = [
-        "def3cc7b-1b66-484a-84f8-60e89b8cb3b2",
-        "2ddcac44-7427-4c80-9f7a-49fdef28e5ee",
+        "c1388601-cfa9-46e7-b24c-5ac7d573d1d8",
+        "c3359d3e-bbeb-4843-9e7f-a48825948689",
       ];
 
       return await prisma.$transaction(async (tx) => {

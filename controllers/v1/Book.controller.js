@@ -11,11 +11,11 @@ export class BookController {
    */
   static async handleGetAllBooks(req, res) {
     try {
-      const { category, isFree, search, sort, limit, page } = req.query;
+      const { category, type, search, sort, limit, page } = req.query;
 
       const books = await BookService.getAllBooks({
         category,
-        isFree: isFree === "true",
+        type: type === "free" ? true : type === "paid" ? false : undefined,
         search,
         sort,
         limit: limit ? parseInt(limit) : 10,
