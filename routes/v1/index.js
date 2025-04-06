@@ -16,10 +16,10 @@ router.use("/books", booksRoutes);
 router.use("/categories", categoriesRoutes);
 router.use("/purchases", purchasesRoutes);
 router.use(
-  "/library",
-  validateToken,
-  checkRole([USER_ROLES.USER]),
-  libraryRoutes
+    "/library",
+    validateToken,
+    checkRole([USER_ROLES.USER]),
+    libraryRoutes
 );
 router.use("/reviews", reviewsRoutes);
 router.use("/admin", validateToken, checkRole([USER_ROLES.ADMIN]), adminRoutes);

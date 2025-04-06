@@ -158,7 +158,7 @@ export const higherOrderUserDataValidation = (dataObject = []) => {
       for (const item of dataObject) {
         const fieldValue = req.body[item.field];
 
-        if (!fieldValue) {
+        if (!fieldValue && item.type !== VALIDATION_TYPES.BOOLEAN) {
           return APIResponse.error(res, `${item.field} is required`, 400);
         }
 

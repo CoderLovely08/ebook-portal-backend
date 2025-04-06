@@ -1,4 +1,4 @@
-import { APIResponse } from "../../service/core/CustomResponse.js";
+import { APIResponse, CustomError } from "../../service/core/CustomResponse.js";
 import { BookService } from "../../service/v1/book.service.js";
 
 export class BookController {
@@ -14,7 +14,7 @@ export class BookController {
       const { category, type, search, sort, limit, page } = req.query;
 
       const books = await BookService.getAllBooks({
-        category,
+        category: category === "all" ? undefined : category,
         type: type === "free" ? true : type === "paid" ? false : undefined,
         search,
         sort,
@@ -66,8 +66,14 @@ export class BookController {
         categories,
       } = req.body;
 
-      const coverImage = req.files.coverImage;
-      const filePath = req.files.filePath;
+      const coverImage = req.files?.coverImage;
+      const filePath = req.files?.filePath;
+
+      const isBookFree = isFree === "true";
+      const bookPrice = parseFloat(price);
+      if (!isBookFree && bookPrice <= 0) {
+        throw new CustomError("Price must be greater than 0", 400);
+      }
 
       const book = await BookService.createBook({
         title,
@@ -76,7 +82,7 @@ export class BookController {
         coverImage: coverImage.fileUrl,
         filePath: filePath.fileUrl,
         price: parseFloat(price),
-        isFree: Boolean(isFree),
+        isFree: isBookFree,
         publishedDate: new Date(publishedDate),
         categories,
       });
