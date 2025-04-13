@@ -102,6 +102,7 @@ model PurchaseOrder {
   bookId       String
   purchaseDate DateTime    @default(now())
   status       OrderStatus @default(PENDING)
+  amount       Float       @default(0)
 
   // Relations
   user SystemUsersInfo @relation(fields: [userId], references: [id], onDelete: Cascade)

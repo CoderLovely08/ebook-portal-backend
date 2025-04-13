@@ -3,6 +3,28 @@ import { ReviewService } from "../../service/v1/review.service.js";
 
 export class ReviewController {
   /**
+   * Handle get user reviews
+   * @description Get all reviews for a user
+   * @param {Object} req - The request object
+   * @param {Object} res - The response object
+   * @returns {Object} The response object
+   */
+  static async handleGetUserReviews(req, res) {
+    try {
+      const { userId } = req.user;
+      
+      const reviews = await ReviewService.getUserReviews(userId);
+
+      return APIResponse.success(res, reviews, "User reviews retrieved successfully");
+    } catch (error) {
+      return APIResponse.error(res, error.message, error.statusCode);
+    }
+  }
+
+
+
+
+  /**
    * Handle get book reviews
    * @description Get all reviews for a book
    * @param {Object} req - The request object

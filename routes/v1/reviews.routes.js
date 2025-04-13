@@ -8,6 +8,13 @@ import { USER_ROLES } from "../../utils/constants/app.constant.js";
 const router = Router();
 
 /**
+ * Get all reviews for a user
+ * Route: /api/v1/reviews/user
+ */
+router.use("/", validateToken, checkRole([USER_ROLES.USER]), ReviewController.handleGetUserReviews);
+
+
+/**
  * Get all reviews for a book
  * Route: /api/v1/reviews/book/:bookId
  * Params: bookId

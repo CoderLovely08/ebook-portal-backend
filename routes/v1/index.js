@@ -6,6 +6,7 @@ import purchasesRoutes from "./purchases.routes.js";
 import libraryRoutes from "./library.routes.js";
 import reviewsRoutes from "./reviews.routes.js";
 import adminRoutes from "./admin.routes.js";
+import userRoutes from "./user.routes.js";
 import { checkRole, validateToken } from "../../middlewares/auth.middleware.js";
 import { USER_ROLES } from "../../utils/constants/app.constant.js";
 
@@ -23,5 +24,6 @@ router.use(
 );
 router.use("/reviews", reviewsRoutes);
 router.use("/admin", validateToken, checkRole([USER_ROLES.ADMIN]), adminRoutes);
+router.use("/user", validateToken, checkRole([USER_ROLES.USER]), userRoutes);
 
 export default router;

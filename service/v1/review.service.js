@@ -2,6 +2,46 @@ import { prisma } from "../../app.js";
 import { CustomError } from "../core/CustomResponse.js";
 
 export class ReviewService {
+
+  /**
+   * Get all reviews for a user
+   * @param {number} userId - The user id
+   * @returns {Promise<Array>} The reviews
+   */
+  static async getUserReviews(userId) {
+    try {
+      const reviews = await prisma.review.findMany({
+        where: {
+          userId,
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              fullName: true,
+              email: true,
+            },
+          },
+          book: {
+            select: {
+              id: true,
+              title: true,
+              author: true,
+              coverImage: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
+      return reviews;
+    } catch (error) {
+      throw new CustomError(`Error fetching user reviews: ${error.message}`);
+    }
+  }
+
   /**
    * Get all reviews for a book
    * @param {string} bookId - The book id
