@@ -12,7 +12,7 @@ export class ReviewController {
   static async handleGetUserReviews(req, res) {
     try {
       const { userId } = req.user;
-      
+
       const reviews = await ReviewService.getUserReviews(userId);
 
       return APIResponse.success(res, reviews, "User reviews retrieved successfully");
@@ -34,7 +34,7 @@ export class ReviewController {
   static async handleGetBookReviews(req, res) {
     try {
       const { bookId } = req.params;
-      
+
       const reviews = await ReviewService.getBookReviews(bookId);
 
       return APIResponse.success(res, reviews, "Book reviews retrieved successfully");
@@ -53,7 +53,7 @@ export class ReviewController {
   static async handleGetReviewById(req, res) {
     try {
       const { id } = req.params;
-      
+
       const review = await ReviewService.getReviewById(id);
 
       return APIResponse.success(res, review, "Review retrieved successfully");
@@ -73,7 +73,8 @@ export class ReviewController {
     try {
       const { bookId, rating, comment } = req.body;
       const userId = req.user.userId;
-      
+
+
       const review = await ReviewService.createReview({
         userId,
         bookId,
@@ -99,7 +100,7 @@ export class ReviewController {
       const { id } = req.params;
       const { rating, comment } = req.body;
       const userId = req.user.userId;
-      
+
       const review = await ReviewService.updateReview(id, userId, {
         rating: rating ? parseInt(rating) : undefined,
         comment,
@@ -122,7 +123,7 @@ export class ReviewController {
     try {
       const { id } = req.params;
       const userId = req.user.userId;
-      
+
       await ReviewService.deleteReview(id, userId);
 
       return APIResponse.success(res, null, "Review deleted successfully");

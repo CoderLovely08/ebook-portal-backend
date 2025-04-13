@@ -27,6 +27,7 @@ export const validateToken = async (req, res, next) => {
     // Verify token
     const decoded = decodeJwtToken(token);
 
+
     if (!decoded) {
       return APIResponse.error(res, "Invalid token", 401);
     }

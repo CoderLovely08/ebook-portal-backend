@@ -1,6 +1,6 @@
 import { prisma } from "../../app.js";
 import { CustomError } from "../core/CustomResponse.js";
-import { PRISMA_ERROR_CODES } from "../../utils/constants/app.constant.js";
+import { ORDER_STATUS, PRISMA_ERROR_CODES } from "../../utils/constants/app.constant.js";
 import { SupabaseService } from "../common/Supabase.service.js";
 
 export class BookService {
@@ -87,9 +87,9 @@ export class BookService {
                 const avgRating =
                     book.reviews.length > 0
                         ? book.reviews.reduce(
-                              (sum, review) => sum + review.rating,
-                              0
-                          ) / book.reviews.length
+                            (sum, review) => sum + review.rating,
+                            0
+                        ) / book.reviews.length
                         : 0;
 
                 // Extract category names
@@ -124,9 +124,10 @@ export class BookService {
     /**
      * Get book by id
      * @param {string} id - The book id
+     * @param {string} userId - The user id
      * @returns {Promise<Object>} The book
      */
-    static async getBookById(id) {
+    static async getBookById(id, userId) {
         try {
             const book = await prisma.book.findUnique({
                 where: { id },
@@ -158,19 +159,28 @@ export class BookService {
             const avgRating =
                 book.reviews.length > 0
                     ? book.reviews.reduce(
-                          (sum, review) => sum + review.rating,
-                          0
-                      ) / book.reviews.length
+                        (sum, review) => sum + review.rating,
+                        0
+                    ) / book.reviews.length
                     : 0;
 
             // Extract category names
             const categories = book.categories.map((c) => c.category);
+
+            const isPurchased = await prisma.purchaseOrder.findFirst({
+                where: {
+                    bookId: id,
+                    userId,
+                    status: ORDER_STATUS.COMPLETED,
+                },
+            });
 
             return {
                 ...book,
                 categories,
                 avgRating,
                 reviewCount: book.reviews.length,
+                isPurchased: isPurchased ? true : false,
             };
         } catch (error) {
             if (error instanceof CustomError) {

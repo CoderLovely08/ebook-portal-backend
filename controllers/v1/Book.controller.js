@@ -38,8 +38,9 @@ export class BookController {
   static async handleGetBookById(req, res) {
     try {
       const { id } = req.params;
+      const userId = req.user.userId;
 
-      const book = await BookService.getBookById(id);
+      const book = await BookService.getBookById(id, userId);
 
       return APIResponse.success(res, book, "Book retrieved successfully");
     } catch (error) {

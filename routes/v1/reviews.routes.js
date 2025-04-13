@@ -11,7 +11,7 @@ const router = Router();
  * Get all reviews for a user
  * Route: /api/v1/reviews/user
  */
-router.use("/", validateToken, checkRole([USER_ROLES.USER]), ReviewController.handleGetUserReviews);
+router.get("/", validateToken, checkRole([USER_ROLES.USER]), ReviewController.handleGetUserReviews);
 
 
 /**

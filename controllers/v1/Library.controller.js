@@ -13,7 +13,7 @@ export class LibraryController {
     try {
       const userId = req.user.userId;
 
-      const library = await LibraryService.getUserLibrary(userId);
+      const library = await LibraryService.getUserLibrary(userId);      
 
       return APIResponse.success(
         res,

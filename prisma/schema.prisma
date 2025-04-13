@@ -97,12 +97,13 @@ model CategoriesOnBooks {
 
 // PurchaseOrder model for tracking book purchases
 model PurchaseOrder {
-  id           String      @id @default(uuid())
-  userId       Int
-  bookId       String
-  purchaseDate DateTime    @default(now())
-  status       OrderStatus @default(PENDING)
-  amount       Float       @default(0)
+  id            String      @id @default(uuid())
+  userId        Int
+  bookId        String
+  purchaseDate  DateTime    @default(now())
+  status        OrderStatus @default(PENDING)
+  amount        Float       @default(0)
+  isActionTaken Boolean     @default(false)
 
   // Relations
   user SystemUsersInfo @relation(fields: [userId], references: [id], onDelete: Cascade)

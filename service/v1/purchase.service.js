@@ -115,6 +115,7 @@ export class PurchaseService {
             userId,
             bookId,
             status: book.isFree ? ORDER_STATUS.COMPLETED : ORDER_STATUS.PENDING,
+            amount: book.isFree ? 0 : book.price,
           },
           include: {
             book: {
@@ -186,6 +187,7 @@ export class PurchaseService {
           where: { id },
           data: {
             status,
+            isActionTaken: true,
           },
           include: {
             book: true,

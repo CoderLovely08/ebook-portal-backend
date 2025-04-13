@@ -21,7 +21,7 @@ router.get("/", BookController.handleGetAllBooks);
  * Route: /api/v1/books/:id
  * Params: id
  */
-router.get("/:id", BookController.handleGetBookById);
+router.get("/:id", validateToken, BookController.handleGetBookById);
 
 /**
  * Create a new book (Admin only)
