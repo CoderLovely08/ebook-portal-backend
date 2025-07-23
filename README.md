@@ -2,11 +2,16 @@
 
 A comprehensive digital eBook platform that enables users to browse, purchase, read, and manage digital books. Built with Node.js, Express, Prisma, PostgreSQL for the backend and designed to support frontend applications.
 
+## Frontend Repository
+
+The frontend repository is available at [BookVerse Frontend](https://github.com/CoderLovely08/ebook-portal-frontend).
+
 ## Project Overview
 
 The eBook Platform provides a complete solution for digital book management with three core modules:
 
 ### 1. User Module
+
 - Self-registration and account management
 - Browse books by categories and search functionality
 - Purchase and access digital books
@@ -15,6 +20,7 @@ The eBook Platform provides a complete solution for digital book management with
 - Reading progress tracking
 
 ### 2. Admin Module
+
 - Complete book catalog management
 - User and purchase order management
 - Category creation and organization
@@ -22,6 +28,7 @@ The eBook Platform provides a complete solution for digital book management with
 - Content moderation and reviews
 
 ### 3. API-First Architecture
+
 - RESTful API design for frontend flexibility
 - JWT-based authentication and authorization
 - File upload handling for book covers and PDF files
@@ -119,6 +126,7 @@ backend/
 ## Core Features
 
 ### Book Management
+
 - **Digital Library**: Complete catalog of eBooks with metadata
 - **Category System**: Organized book classification and filtering
 - **File Storage**: Secure PDF storage and cover image management
@@ -126,18 +134,21 @@ backend/
 - **Free & Paid Books**: Support for both free and premium content
 
 ### User Experience
+
 - **Personal Library**: Individual book collections for users
 - **Purchase System**: Secure book purchasing with order tracking
 - **Review System**: User ratings and reviews with moderation
 - **Reading Progress**: Track user reading activity and progress
 
 ### Admin Dashboard
+
 - **Content Management**: Full CRUD operations for books and categories
 - **User Management**: User account oversight and management
 - **Analytics**: Comprehensive dashboard statistics and reporting
 - **Order Management**: Purchase order tracking and management
 
 ### Security & Performance
+
 - **JWT Authentication**: Secure token-based authentication
 - **Role-Based Access**: User and Admin role differentiation
 - **Rate Limiting**: API protection against abuse
@@ -160,12 +171,14 @@ The application uses PostgreSQL with Prisma ORM and includes the following main 
 ## API Endpoints
 
 ### Authentication Routes
+
 ```
 POST   /api/v1/auth/system/register    # User registration
 POST   /api/v1/auth/system/login       # User login
 ```
 
 ### Book Routes
+
 ```
 GET    /api/v1/books                   # Get all books with filtering
 GET    /api/v1/books/:id               # Get specific book details
@@ -177,6 +190,7 @@ DELETE /api/v1/books/:id               # Delete book (Admin)
 ```
 
 ### Category Routes
+
 ```
 GET    /api/v1/categories              # Get all categories
 GET    /api/v1/categories/:id          # Get category details
@@ -187,6 +201,7 @@ DELETE /api/v1/categories/:id          # Delete category (Admin)
 ```
 
 ### User Library Routes
+
 ```
 GET    /api/v1/library                 # Get user's library
 POST   /api/v1/library                 # Add book to library
@@ -194,6 +209,7 @@ DELETE /api/v1/library/:bookId         # Remove book from library
 ```
 
 ### Purchase Routes
+
 ```
 GET    /api/v1/purchases               # Get user's purchases
 GET    /api/v1/purchases/:id           # Get purchase details
@@ -202,6 +218,7 @@ PUT    /api/v1/purchases/:id/status    # Update purchase status (Admin)
 ```
 
 ### Review Routes
+
 ```
 GET    /api/v1/reviews/book/:bookId    # Get book reviews
 GET    /api/v1/reviews/:id             # Get specific review
@@ -211,6 +228,7 @@ DELETE /api/v1/reviews/:id             # Delete review
 ```
 
 ### Admin Routes
+
 ```
 GET    /api/v1/admin/users             # Get all users
 GET    /api/v1/admin/purchases         # Get all purchases
@@ -220,6 +238,7 @@ GET    /api/v1/admin/stats             # Get dashboard statistics
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (v18 or higher)
 - PostgreSQL database
 - Supabase account for file storage
@@ -228,29 +247,34 @@ GET    /api/v1/admin/stats             # Get dashboard statistics
 ### Installation
 
 1. Clone the repository
+
 ```bash
 git clone https://github.com/CoderLovely08/ebook-portal-backend
 cd ebook-portal-backend
 ```
 
 2. Install dependencies
+
 ```bash
 npm install
 ```
 
 3. Set up environment variables
+
 ```bash
 cp .env.example .env
 # Configure your database URL, JWT secret, and Supabase credentials
 ```
 
 4. Set up the database
+
 ```bash
 npx prisma migrate dev
 npm run seed
 ```
 
 5. Start the development server
+
 ```bash
 npm run dev
 ```
